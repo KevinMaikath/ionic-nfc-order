@@ -9,24 +9,21 @@ export class CatalogService {
 
     categories: AngularFireList<any>;
     categoryItems: AngularFireList<any>;
-    item: Item;
+    // item: Item;
 
     constructor(private firebase: AngularFireDatabase) {
     }
 
     getCategories() {
-        return this.categories = this.firebase.list('categories');
+        return this.categories = this.firebase.list('Categories');
     }
 
     getCategoryItems(category: string) {
         return this.categoryItems = this.firebase.list(category);
     }
 
-    // getItem(category: string, itemName: string) {
-    //     return this.item = new Item(
-    //         this.firebase.object('/' + category + '/' + itemName + '/imgUrl'),
-    //         this.firebase.object('/' + category + '/' + itemName + '/ingredients')
-    //     );
-    // }
+    getItem(category: string, itemName: string) {
+        return this.firebase.object('Categories/' + category + '/' + itemName).valueChanges();
+    }
 
 }

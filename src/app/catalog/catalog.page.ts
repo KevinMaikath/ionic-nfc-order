@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Item} from '../models/item';
 import {CatalogService} from '../services/catalog.service';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-catalog',
@@ -9,7 +10,9 @@ import {CatalogService} from '../services/catalog.service';
 })
 export class CatalogPage implements OnInit {
 
-    categories = Item[];
+    categories: any[];
+
+   // item: Observable<any>;
 
     constructor(private catalogService: CatalogService) {
     }
@@ -22,9 +25,11 @@ export class CatalogPage implements OnInit {
                 items.forEach(element => {
                     let elem = element.payload.toJSON();
                     elem['name'] = element.key;
-                    this.categories.push(elem as Item);
+                    this.categories.push(elem);
                 });
             });
+
+        // this.item = this.catalogService.getItem('Hamburgers', 'Chicken burger');
     }
 
 }
