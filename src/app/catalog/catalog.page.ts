@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Item} from '../models/item';
 import {CatalogService} from '../services/catalog.service';
 import {Observable} from 'rxjs';
 
@@ -12,8 +11,6 @@ export class CatalogPage implements OnInit {
 
     categories: any[];
 
-   // item: Observable<any>;
-
     constructor(private catalogService: CatalogService) {
     }
 
@@ -23,8 +20,8 @@ export class CatalogPage implements OnInit {
             .subscribe(items => {
                 this.categories = [];
                 items.forEach(element => {
-                    let elem = element.payload.toJSON();
-                    elem['name'] = element.key;
+                    const elem = element.payload.toJSON();
+                    // elem['name'] = element.key;
                     this.categories.push(elem);
                 });
             });
