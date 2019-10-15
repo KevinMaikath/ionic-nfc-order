@@ -1,27 +1,20 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {AngularFirestore} from '@angular/fire/firestore';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class CatalogService {
 
-    categories: AngularFireList<any>;
-    categoryItems: AngularFireList<any>;
+    CATEGORIES_REF = 'categories';
 
-    constructor(private firebase: AngularFireDatabase) {
+    constructor(private firebase: AngularFirestore) {
     }
 
     getCategories() {
-        return this.categories = this.firebase.list('categories');
+        return this.firebase.collection(this.CATEGORIES_REF);
     }
 
-    getCategory(category: string) {
-        return this.categoryItems = this.firebase.list('categories/' + category);
-    }
-
-    getItem(category: string, itemName: string) {
-        return this.firebase.object('categories/' + category + '/' + itemName).valueChanges();
-    }
 
 }
