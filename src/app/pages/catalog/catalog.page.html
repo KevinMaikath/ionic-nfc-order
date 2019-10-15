@@ -6,10 +6,13 @@
 
 <ion-content>
     <ion-list>
-        <app-item-list
-                *ngFor="let cat of categories"
-                [category]="cat">
-        </app-item-list>
+        <ion-item *ngFor="let category of categories">
+            <ion-avatar slot="start">
+                <ion-img [src]="category.imgUrl"></ion-img>
+            </ion-avatar>
+            <ion-label>
+                {{ category.name }}
+            </ion-label>
+        </ion-item>
     </ion-list>
 </ion-content>
-<p>Hola xd</p>

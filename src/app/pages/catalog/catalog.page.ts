@@ -15,6 +15,7 @@ export class CatalogPage implements OnInit {
     }
 
     ngOnInit() {
+        console.log('/////// CATALOG: ON INIT ///////////')
         this.catalogService.getCategories()
             .get()
             .subscribe(querySnapshot => {
