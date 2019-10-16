@@ -1,12 +1,15 @@
 <ion-header>
     <ion-toolbar color="tertiary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/catalog"></ion-back-button>
+        </ion-buttons>
         <ion-title>{{ categoryName }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let item of items" [button]="true">
+        <ion-item *ngFor="let item of items" [routerLink]="['/item-detail/', item.docId]">
             <ion-avatar slot="start">
                 <ion-img [src]="item.imgUrl"></ion-img>
             </ion-avatar>

@@ -3,31 +3,35 @@ import {AngularFirestore} from '@angular/fire/firestore';
 
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CatalogService {
 
-    CATEGORIES_REF = 'categories';
+  CATEGORIES_REF = 'categories';
 
-    currentCategoryName: string;
+  currentCategoryName: string;
 
-    constructor(private firebase: AngularFirestore) {
-    }
+  constructor(private firebase: AngularFirestore) {
+  }
 
-    getCategories() {
-        return this.firebase.collection(this.CATEGORIES_REF);
-    }
+  getCategories() {
+    return this.firebase.collection(this.CATEGORIES_REF);
+  }
 
-    setCurrentCategoryName(categoryName: string) {
-        this.currentCategoryName = categoryName;
-    }
+  setCurrentCategoryName(categoryName: string) {
+    this.currentCategoryName = categoryName;
+  }
 
-    getCurrentCategoryName() {
-        return this.currentCategoryName;
-    }
+  getCurrentCategoryName() {
+    return this.currentCategoryName;
+  }
 
-    getCategoryItems(catColRef: string) {
-        return this.firebase.collection(catColRef);
-    }
+  getCategoryItems(catColRef: string) {
+    return this.firebase.collection(catColRef);
+  }
+
+  getItem(itemDocumentReference: string) {
+    return this.firebase.doc(itemDocumentReference);
+  }
 
 }

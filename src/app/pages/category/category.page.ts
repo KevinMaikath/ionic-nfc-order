@@ -35,6 +35,7 @@ export class CategoryPage implements OnInit {
             item.name = doc.data().name;
             item.imgUrl = doc.data().imgUrl;
             item.ingredients = doc.data().ingredients;
+            item.docId = categoryCollectionRef + '/' + doc.id;
             this.items.push(item);
           });
         });
