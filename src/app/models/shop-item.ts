@@ -1,5 +1,5 @@
 export class ShopItem {
   name: string;
-  price: string;
+  price: number;
   count: number;
 }

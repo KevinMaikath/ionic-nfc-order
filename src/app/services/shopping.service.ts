@@ -9,7 +9,7 @@ export class ShoppingService {
   cart: ShopItem[];
 
   constructor() {
-    // this.cart = [];
+    this.cart = [];
   }
 
   getShoppingCart() {
@@ -17,12 +17,27 @@ export class ShoppingService {
   }
 
   addItemToShoppingCart(item: ShopItem) {
+    const existingItem = this.cart.find(element => {
+      return element.name === item.name;
+    });
+
+    if (existingItem !== undefined) {
+      this.addOneToItemCount(existingItem);
+    } else {
+      const newItem = new ShopItem();
+      newItem.name = item.name;
+      newItem.price = item.price;
+      newItem.count = 1;
+      this.cart.push(newItem);
+    }
+
     if (this.cart.includes(item)) {
       this.addOneToItemCount(item);
     } else {
       this.cart.push(item);
     }
   }
+
 
   addOneToItemCount(item: ShopItem) {
     const index = this.cart.indexOf(item);

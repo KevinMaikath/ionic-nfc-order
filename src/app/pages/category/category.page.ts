@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CatalogService} from '../../services/catalog.service';
 import {CategoryItem} from '../../models/category-item';
+import {ShoppingService} from '../../services/shopping.service';
+import {ShopItem} from '../../models/shop-item';
 
 @Component({
   selector: 'app-category',
@@ -15,7 +17,8 @@ export class CategoryPage implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
               private catalogService: CatalogService,
-              private router: Router) {
+              private router: Router,
+              private shoppingService: ShoppingService) {
   }
 
   ngOnInit() {
@@ -35,11 +38,19 @@ export class CategoryPage implements OnInit {
             item.name = doc.data().name;
             item.imgUrl = doc.data().imgUrl;
             item.ingredients = doc.data().ingredients;
+            item.price = doc.data().price;
             item.docId = categoryCollectionRef + '/' + doc.id;
             this.items.push(item);
           });
         });
     });
+  }
+
+  addOneToItemCount(item: CategoryItem) {
+    const shopItem = new ShopItem();
+    shopItem.name = item.name;
+    shopItem.price = item.price;
+    this.shoppingService.addItemToShoppingCart(shopItem);
   }
 
 }

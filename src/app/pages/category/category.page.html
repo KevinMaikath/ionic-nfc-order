@@ -18,9 +18,11 @@
       <ion-avatar slot="start">
         <ion-img [src]="item.imgUrl"></ion-img>
       </ion-avatar>
-      <ion-label>
-        {{ item.name }}
-      </ion-label>
+        <span>{{ item.name }}</span>
+        <span slot="end">{{ item.price }}</span>
+        <ion-button color="success" slot="end" (click)="addOneToItemCount(item)">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>
