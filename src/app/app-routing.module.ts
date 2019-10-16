@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'catalog', loadChildren: './pages/catalog/catalog.module#CatalogPageModule' },
   { path: 'category/:catColRef', loadChildren: './pages/category/category.module#CategoryPageModule' },
   { path: 'item-detail/:itemDocRef', loadChildren: './pages/item-detail/item-detail.module#ItemDetailPageModule' },
+  { path: 'shopping-cart', loadChildren: './pages/shopping-cart/shopping-cart.module#ShoppingCartPageModule' },
 ];
 
 @NgModule({

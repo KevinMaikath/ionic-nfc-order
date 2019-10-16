@@ -1,18 +1,30 @@
 <ion-header>
-    <ion-toolbar color="tertiary">
-        <ion-buttons slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-title>{{ categoryItem.name }}</ion-title>
-    </ion-toolbar>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ categoryItem.name }}</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-img [src]="categoryItem.imgUrl">
-    </ion-img>
-    <ion-list>
-        <ion-item *ngFor="let ingredient of categoryItem.ingredients">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-img [src]="categoryItem.imgUrl">
+        </ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <h3 class="ion-text-center">Ingredients:</h3>
+        <ion-list>
+          <ion-item
+              *ngFor="let ingredient of categoryItem.ingredients">
             <ion-text>{{ ingredient }}</ion-text>
-        </ion-item>
-    </ion-list>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
