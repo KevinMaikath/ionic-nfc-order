@@ -1,9 +1,27 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>shoppingCart</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Shopping Cart</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of shoppingCart">
 
+      <ion-label slot="start">{{ item.name }}</ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button small color="danger" shape="round" (click)="removeOneToItemCount(item)">
+          <ion-icon name="remove-circle"></ion-icon>
+        </ion-button>
+        <span>{{ item.count }}</span>
+      </ion-buttons>
+      <ion-button small color="success" shape="round" (click)="addOneToItemCount(item)">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-button>
+    </ion-item>
+  </ion-list>
 </ion-content>
