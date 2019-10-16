@@ -1,9 +1,18 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>category</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="tertiary">
+        <ion-title>{{ categoryName }}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<p>Categoryy</p>
+    <ion-list>
+        <ion-item *ngFor="let item of items" [button]="true">
+            <ion-avatar slot="start">
+                <ion-img [src]="item.imgUrl"></ion-img>
+            </ion-avatar>
+            <ion-label>
+                {{ item.name }}
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
