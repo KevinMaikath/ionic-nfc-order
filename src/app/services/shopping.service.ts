@@ -30,12 +30,6 @@ export class ShoppingService {
       newItem.count = 1;
       this.cart.push(newItem);
     }
-
-    if (this.cart.includes(item)) {
-      this.addOneToItemCount(item);
-    } else {
-      this.cart.push(item);
-    }
   }
 
 
@@ -56,7 +50,11 @@ export class ShoppingService {
   }
 
   removeFromShoppingCart(index: number) {
-    this.cart.splice(index);
+    if (index === 0) {
+      this.cart.shift();
+    } else {
+      this.cart.splice(index);
+    }
   }
 
 }

@@ -53,4 +53,8 @@ export class CategoryPage implements OnInit {
     this.shoppingService.addItemToShoppingCart(shopItem);
   }
 
+  goToItemDetail(docId: string) {
+    this.router.navigate(['/item-detail/', docId]);
+  }
+
 }

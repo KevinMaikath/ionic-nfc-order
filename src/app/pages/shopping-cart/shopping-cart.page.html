@@ -14,14 +14,15 @@
       <ion-label slot="start">{{ item.name }}</ion-label>
 
       <ion-buttons slot="end">
-        <ion-button small color="danger" shape="round" (click)="removeOneToItemCount(item)">
+        <span slot="start">{{ item.price }} $</span>
+        <ion-button small color="danger" shape="round" (click)="removeOneFromItemCount(item)">
           <ion-icon name="remove-circle"></ion-icon>
         </ion-button>
         <span>{{ item.count }}</span>
-      </ion-buttons>
-      <ion-button small color="success" shape="round" (click)="addOneToItemCount(item)">
+        <ion-button small color="success" shape="round" (click)="addOneToItemCount(item)">
           <ion-icon name="add-circle"></ion-icon>
         </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 </ion-content>
