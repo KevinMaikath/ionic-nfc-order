@@ -53,7 +53,6 @@ export class CategoryPage implements OnInit {
     shopItem.name = item.name;
     shopItem.price = item.price;
     this.shoppingService.addItemToShoppingCart(shopItem);
-
     this.notifyItemAdded(item.name);
   }
 

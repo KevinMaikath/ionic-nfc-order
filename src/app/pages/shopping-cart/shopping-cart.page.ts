@@ -10,6 +10,7 @@ import {ShoppingService} from '../../services/shopping.service';
 export class ShoppingCartPage implements OnInit {
 
   shoppingCart: ShopItem[];
+  totalPrice: number;
 
   constructor(private shoppingService: ShoppingService) {
   }
@@ -30,6 +31,7 @@ export class ShoppingCartPage implements OnInit {
 
   resetShoppingCart() {
     this.shoppingCart = this.shoppingService.getShoppingCart();
+    this.totalPrice = this.shoppingService.getTotalPrice();
   }
 
 }

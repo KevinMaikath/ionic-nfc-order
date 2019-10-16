@@ -7,13 +7,19 @@ import {ShopItem} from '../models/shop-item';
 export class ShoppingService {
 
   cart: ShopItem[];
+  totalPrice;
 
   constructor() {
     this.cart = [];
+    this.totalPrice = 0;
   }
 
   getShoppingCart() {
     return this.cart;
+  }
+
+  getTotalPrice() {
+    return this.totalPrice;
   }
 
   addItemToShoppingCart(item: ShopItem) {
@@ -30,12 +36,13 @@ export class ShoppingService {
       newItem.count = 1;
       this.cart.push(newItem);
     }
+    this.totalPrice += item.price;
   }
-
 
   addOneToItemCount(item: ShopItem) {
     const index = this.cart.indexOf(item);
     this.cart[index].count += 1;
+    this.totalPrice += item.price;
   }
 
   removeOneFromItemCount(item: ShopItem) {
@@ -46,6 +53,7 @@ export class ShoppingService {
       } else {
         this.removeFromShoppingCart(index);
       }
+      this.totalPrice -= item.price;
     }
   }
 

@@ -9,6 +9,9 @@
 
 <ion-content>
   <ion-list>
+    <ion-list-header>
+      <h3>Total: {{ totalPrice }} $</h3>
+    </ion-list-header>
     <ion-item *ngFor="let item of shoppingCart">
 
       <ion-label slot="start">{{ item.name }}</ion-label>
