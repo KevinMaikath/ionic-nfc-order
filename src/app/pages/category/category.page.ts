@@ -4,6 +4,7 @@ import {CatalogService} from '../../services/catalog.service';
 import {CategoryItem} from '../../models/category-item';
 import {ShoppingService} from '../../services/shopping.service';
 import {ShopItem} from '../../models/shop-item';
+import {ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-category',
@@ -18,7 +19,8 @@ export class CategoryPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private catalogService: CatalogService,
               private router: Router,
-              private shoppingService: ShoppingService) {
+              private shoppingService: ShoppingService,
+              private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -51,10 +53,21 @@ export class CategoryPage implements OnInit {
     shopItem.name = item.name;
     shopItem.price = item.price;
     this.shoppingService.addItemToShoppingCart(shopItem);
+
+    this.notifyItemAdded(item.name);
   }
 
   goToItemDetail(docId: string) {
     this.router.navigate(['/item-detail/', docId]);
+  }
+
+  async notifyItemAdded(itemName: string) {
+    const toast = await this.toastCtrl.create({
+      message: `${itemName} added to the cart!`,
+      duration: 2000,
+      color: 'medium',
+    });
+    await toast.present();
   }
 
 }
