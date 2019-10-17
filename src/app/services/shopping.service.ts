@@ -58,7 +58,11 @@ export class ShoppingService {
   }
 
   removeFromShoppingCart(index: number) {
-    this.cart.splice(index, 1);
+    if (index === 0) {
+      this.cart.shift();
+    } else {
+      this.cart.splice(index);
+    }
   }
 
 }
