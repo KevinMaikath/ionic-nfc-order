@@ -1,0 +1,7 @@
+{
+  "appId": "com.kevinrx25.nfcorder",
+  "appName": "nfc-order",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

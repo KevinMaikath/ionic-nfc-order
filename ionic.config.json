@@ -1,5 +1,7 @@
 {
   "name": "nfc-ordering",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
