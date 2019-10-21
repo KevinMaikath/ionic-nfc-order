@@ -10,14 +10,14 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <h3>Total: {{ totalPrice }} $</h3>
+      <h3>Total: ${{ totalPrice }}</h3>
     </ion-list-header>
     <ion-item *ngFor="let item of shoppingCart">
 
-      <ion-label slot="start">{{ item.name }}</ion-label>
+      <ion-label>{{ item.name }}</ion-label>
 
       <ion-buttons slot="end">
-        <span slot="start">{{ item.price }} $</span>
+        <span slot="start">${{ item.price }}</span>
         <ion-button small color="danger" shape="round" (click)="removeOneFromItemCount(item)">
           <ion-icon name="remove-circle"></ion-icon>
         </ion-button>

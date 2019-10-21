@@ -14,23 +14,23 @@
 
 <ion-content>
   <ion-list>
-    <ion-grid class="ion-no-padding">
-      <ion-row *ngFor="let item of items">
-        <ion-col size="10" class="ion-no-padding" (click)="goToItemDetail(item.docId)">
-          <ion-item [button]="true">
-            <ion-avatar slot="start">
-              <ion-img [src]="item.imgUrl"></ion-img>
-            </ion-avatar>
-            <span>{{ item.name }}</span>
-            <span slot="end">{{ item.price }}</span>
-          </ion-item>
-        </ion-col>
-        <ion-col size="2">
-          <ion-button color="success" size="small" (click)="addOneToItemCount(item)">
-            <ion-icon name="add-circle"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+        <ion-grid class="ion-no-padding">
+          <ion-row *ngFor="let item of items">
+            <ion-col size="10" (click)="goToItemDetail(item.docId)">
+              <ion-item [button]="true">
+                <ion-avatar slot="start">
+                  <ion-img [src]="item.imgUrl"></ion-img>
+                </ion-avatar>
+                <span>{{ item.name }}</span>
+                <span slot="end">${{ item.price }}</span>
+              </ion-item>
+            </ion-col>
+            <ion-col size="2" class="d-flex justify-content-center align-items-center">
+              <ion-button expand="block" color="success" (click)="addOneToItemCount(item)">
+                <ion-icon name="add-circle"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
   </ion-list>
 </ion-content>
