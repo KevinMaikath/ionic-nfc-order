@@ -87,27 +87,6 @@ export class ShoppingCartPage implements OnInit {
 
   }
 
-  // setNdefListener(): Promise<void> {
-  //   if (!this.existingObservable) {
-  //     console.log('>>>>>>>>>>>>> Creating listener');
-  //     return new Promise<void>((resolve, reject) => {
-  //       this.ndefEventObservable = this.nfc.addNdefListener(() => {
-  //         console.log('>>>>>>>>>>> ON SUCCESS');
-  //         this.existingObservable = true;
-  //         resolve();
-  //       }, () => {
-  //         console.log('>>>>>>>>>>> ON FAIL');
-  //         this.existingObservable = false;
-  //         reject(new Error());
-  //       });
-  //     });
-  //   } else {
-  //     return new Promise<void>((resolve) => {
-  //       resolve();
-  //     });
-  //   }
-  // }
-
   private setNdefSubscription(): Promise<void> {
     return new Promise<void>((resolve) => {
       this.nfcSubscription = this.ndefEventObservable.subscribe((event) => {
@@ -123,14 +102,31 @@ export class ShoppingCartPage implements OnInit {
     // Read from register 4
     let payload = this.nfc.bytesToString(event.tag.ndefMessage[4].payload);
     payload = payload.substring(3);
-    this.alertCtrl.create({
-      message: payload,
-      buttons: [
-        {text: 'Cancel'}
-      ]
-    }).then(alertEl => {
-      alertEl.present();
-    });
+
+    let restaurantName = this.nfc.bytesToString(event.tag.ndefMessage[3].payload);
+    restaurantName = restaurantName.substring(3);
+
+    this.shoppingService.setOrder(payload)
+      .then(() => {
+        this.alertCtrl.create({
+          message: 'Your order has been successfully submitted for: ' + restaurantName,
+          buttons: [
+            {text: 'Okay'}
+          ]
+        }).then(alertEl => {
+          alertEl.present();
+        });
+      })
+      .catch(() => {
+        this.alertCtrl.create({
+          message: 'There has been an error while submitting your order, please retry',
+          buttons: [
+            {text: 'Okay'}
+          ]
+        }).then(alertEl => {
+          alertEl.present();
+        });
+      });
 
     this.nfcSubscription.unsubscribe();
   }
@@ -163,94 +159,5 @@ export class ShoppingCartPage implements OnInit {
       alertEl.present();
     });
   }
-
-  // onDoneClicked() {
-  //   this.setNdefListener();
-  //   this.waitForNfcObserver();
-  //   // this.setNdefSubscription();
-  //
-  // }
-  //
-  // // Check if the listener is currently on,
-  // // so that we dont add multiple listeners
-  // private setNdefListener() {
-  //   if (!this.existingObservable) {
-  //     this.ndefEventObservable = this.nfc.addNdefListener(() => {
-  //       this.existingObservable = true;
-  //     }, (err) => {
-  //       this.existingObservable = false;
-  //     });
-  //   }
-  // }
-  //
-  // private setNdefSubscription() {
-  //   this.nfcSubscription = this.ndefEventObservable.subscribe((event) => {
-  //     this.onNdefEvent(event);
-  //   });
-  //   this.setReadNfcAlert();
-  // }
-  //
-  // private onNdefEvent(event) {
-  //   this.listenAlert.dismiss();
-  //
-  //   // Read from register 4
-  //   let payload = this.nfc.bytesToString(event.tag.ndefMessage[4].payload);
-  //   payload = payload.substring(3);
-  //   this.alertCtrl.create({
-  //     message: payload,
-  //     buttons: [
-  //       {text: 'Cancel'}
-  //     ]
-  //   }).then(alertEl => {
-  //     alertEl.present();
-  //   });
-  //
-  //   this.nfcSubscription.unsubscribe();
-  // }
-  //
-  // private async setReadNfcAlert() {
-  //   this.listenAlert = await this.alertCtrl.create({
-  //     message: 'Please approach your phone to the NFC tag',
-  //     buttons: [
-  //       {
-  //         text: 'Cancel',
-  //         handler: () => {
-  //           this.nfcSubscription.unsubscribe();
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   await this.listenAlert.present();
-  // }
-  //
-  // private async waitForNfcObserver() {
-  //   this.loading = await this.loadingCtrl.create({
-  //     message: 'Wait a second...',
-  //     duration: 1000
-  //   });
-  //   await this.loading.present();
-  //   await this.loading.onDidDismiss().then(() => {
-  //     if (this.existingObservable) {
-  //       this.setNdefSubscription();
-  //     } else {
-  //       this.alertNfcUnavailable();
-  //     }
-  //   });
-  // }
-  //
-  // private alertNfcUnavailable() {
-  //   this.alertCtrl.create({
-  //     message: 'Please enable NFC first',
-  //     buttons: [
-  //       {
-  //         text: 'Okay',
-  //         role: 'cancel'
-  //       }
-  //     ]
-  //   }).then(alertEl => {
-  //     alertEl.present();
-  //   });
-  // }
-
 
 }
