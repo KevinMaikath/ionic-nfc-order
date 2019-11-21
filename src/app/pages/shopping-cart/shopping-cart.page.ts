@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ShopItem} from '../../models/shop-item';
 import {ShoppingService} from '../../services/shopping.service';
 import {LoadingController, AlertController} from '@ionic/angular';
@@ -11,7 +11,7 @@ import {Observable, Subscription} from 'rxjs';
   templateUrl: './shopping-cart.page.html',
   styleUrls: ['./shopping-cart.page.scss'],
 })
-export class ShoppingCartPage implements OnInit {
+export class ShoppingCartPage implements OnInit, OnDestroy {
 
   shoppingCart: ShopItem[];
   totalPrice: number;
@@ -30,6 +30,10 @@ export class ShoppingCartPage implements OnInit {
 
   ngOnInit() {
     this.resetShoppingCart();
+  }
+
+  ngOnDestroy() {
+    this.nfcSubscription.unsubscribe();
   }
 
   addOneToItemCount(item: ShopItem) {
@@ -128,7 +132,7 @@ export class ShoppingCartPage implements OnInit {
         });
       });
 
-    this.nfcSubscription.unsubscribe();
+    // this.nfcSubscription.unsubscribe();
   }
 
   private async setReadNfcAlert() {
@@ -144,6 +148,9 @@ export class ShoppingCartPage implements OnInit {
       ]
     });
     await this.listenAlert.present();
+    await this.listenAlert.onDidDismiss().then(() => {
+      this.nfcSubscription.unsubscribe();
+    });
   }
 
   private alertNfcUnavailable() {
