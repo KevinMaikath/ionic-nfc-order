@@ -14,13 +14,15 @@
 
 <ion-content>
   <ion-grid class="ion-no-padding">
-    <ion-row>
+
+
+    <ion-row *ngIf="!landscape">
       <ion-col class="ion-no-padding">
         <ion-img [src]="categoryItem.imgUrl" style="max-width: 60%; margin:auto">
         </ion-img>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="!landscape">
       <ion-col class="ion-no-padding">
         <ion-item>
           <h4 slot="start">Price: {{ categoryItem.price }} $</h4>
@@ -30,6 +32,22 @@
         </ion-item>
       </ion-col>
     </ion-row>
+
+    <ion-row *ngIf="landscape">
+      <ion-col class="ion-no-padding" size="7">
+        <ion-img [src]="categoryItem.imgUrl" style="max-width: 40%; margin:auto">
+        </ion-img>
+      </ion-col>
+      <ion-col class="ion-no-padding" size="5">
+        <ion-item>
+          <h4 slot="start">Price: {{ categoryItem.price }} $</h4>
+          <ion-button slot="end" color="success" (click)="addOneToItemCount(categoryItem)">
+            <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
     <ion-row>
       <ion-col>
         <h4 class="ion-text-center">Ingredients:</h4>
