@@ -33,7 +33,9 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.nfcSubscription.unsubscribe();
+    if (this.nfcSubscription != null) {
+      this.nfcSubscription.unsubscribe();
+    }
   }
 
   addOneToItemCount(item: ShopItem) {
