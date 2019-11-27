@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore, DocumentReference} from '@angular/fire/firestore';
+import {Category} from '../models/category';
+import {Product} from '../models/product';
 
 
 @Injectable({
@@ -7,31 +9,30 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class CatalogService {
 
-  CATEGORIES_REF = 'categories';
-
+  CATEGORIES_ROOT_COLLECTION = 'categories';
+  categories: Category[];
   currentCategoryName: string;
 
   constructor(private firebase: AngularFirestore) {
   }
 
+  loadCategories() {
+    return new Promise<void>((resolve, reject) => {
+      this.firebase.collection(this.CATEGORIES_ROOT_COLLECTION)
+        .get()
+        .subscribe(querySnapshot => {
+          this.categories = [];
+          querySnapshot.forEach(doc => {
+            const category = doc.data() as Category;
+            this.categories.push(category);
+          });
+          resolve();
+        });
+    });
+  }
+
   getCategories() {
-    return this.firebase.collection(this.CATEGORIES_REF);
-  }
-
-  setCurrentCategoryName(categoryName: string) {
-    this.currentCategoryName = categoryName;
-  }
-
-  getCurrentCategoryName() {
-    return this.currentCategoryName;
-  }
-
-  getCategoryItems(catColRef: string) {
-    return this.firebase.collection(catColRef);
-  }
-
-  getItem(itemDocumentReference: string) {
-    return this.firebase.doc(itemDocumentReference);
+    return this.categories;
   }
 
 }

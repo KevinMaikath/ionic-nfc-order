@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CatalogService} from '../../services/catalog.service';
-import {CategoryItem} from '../../models/category-item';
+import {Router} from '@angular/router';
+
 import {ShoppingService} from '../../services/shopping.service';
 import {ShopItem} from '../../models/shop-item';
 import {ToastController} from '@ionic/angular';
+import {Product} from '../../models/product';
+import {CategoryService} from '../../services/category.service';
+import {ItemDetailService} from '../../services/item-detail.service';
 
 @Component({
   selector: 'app-category',
@@ -13,42 +15,25 @@ import {ToastController} from '@ionic/angular';
 })
 export class CategoryPage implements OnInit {
 
-  items: CategoryItem[];
   categoryName: string;
+  products: Product[];
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private catalogService: CatalogService,
+  constructor(private categoryService: CategoryService,
+              private itemDetailService: ItemDetailService,
               private router: Router,
               private shoppingService: ShoppingService,
               private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
-      if (!paramMap.has('catColRef')) {
-        this.router.navigate(['/catalog']);
-        return;
-      }
-      this.categoryName = this.catalogService.getCurrentCategoryName();
-      const categoryCollectionRef = paramMap.get('catColRef');
-      this.catalogService.getCategoryItems(categoryCollectionRef)
-        .get()
-        .subscribe(querySnapshot => {
-          this.items = [];
-          querySnapshot.forEach(doc => {
-            const item = new CategoryItem();
-            item.name = doc.data().name;
-            item.imgUrl = doc.data().imgUrl;
-            item.ingredients = doc.data().ingredients;
-            item.price = doc.data().price;
-            item.docId = categoryCollectionRef + '/' + doc.id;
-            this.items.push(item);
-          });
-        });
-    });
+    this.categoryName = this.categoryService.getCategoryName();
+    this.categoryService.loadProducts()
+      .then(() => {
+        this.products = this.categoryService.getProducts();
+      });
   }
 
-  addOneToItemCount(item: CategoryItem) {
+  addOneToItemCount(item: Product) {
     const shopItem = new ShopItem();
     shopItem.name = item.name;
     shopItem.price = item.price;
@@ -56,8 +41,9 @@ export class CategoryPage implements OnInit {
     this.notifyItemAdded(item.name);
   }
 
-  goToItemDetail(docId: string) {
-    this.router.navigate(['/item-detail/', docId]);
+  goToItemDetail(item: Product) {
+    this.itemDetailService.setCurrentProduct(item);
+    this.router.navigate(['/item-detail']);
   }
 
   async notifyItemAdded(itemName: string) {

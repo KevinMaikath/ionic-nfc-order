@@ -72,8 +72,6 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
   }
 
   setNdefListener(): Promise<void> {
-    console.log('/////////// SET LISTENER');
-
     return new Promise<void>((resolve, reject) => {
       this.nfc.enabled()
         .then(() => {

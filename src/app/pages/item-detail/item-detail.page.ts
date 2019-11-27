@@ -1,12 +1,12 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CatalogService} from '../../services/catalog.service';
-import {CategoryItem} from '../../models/category-item';
+import {Router} from '@angular/router';
 import {ShoppingService} from '../../services/shopping.service';
 import {ShopItem} from '../../models/shop-item';
 import {ToastController} from '@ionic/angular';
 import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 import {Subscription} from 'rxjs';
+import {ItemDetailService} from '../../services/item-detail.service';
+import {Product} from '../../models/product';
 
 @Component({
   selector: 'app-item-detail',
@@ -15,12 +15,11 @@ import {Subscription} from 'rxjs';
 })
 export class ItemDetailPage implements OnInit, OnDestroy {
 
-  categoryItem: CategoryItem;
+  product: Product;
   landscape: boolean;
   orientationListener: Subscription;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private catalogService: CatalogService,
+  constructor(private itemDetailService: ItemDetailService,
               private router: Router,
               private shoppingService: ShoppingService,
               private toastCtrl: ToastController,
@@ -32,27 +31,8 @@ export class ItemDetailPage implements OnInit, OnDestroy {
     // Check current orientation
     this.landscape = this.screenOrientation.type === 'landscape-secondary';
 
-    // Get URL parameters: item to load
-    this.activatedRoute.paramMap.subscribe(paramMap => {
-      if (!paramMap.has('itemDocRef')) {
-        this.router.navigate(['/catalog']);
-        return;
-      }
-      const itemDocumentRef = paramMap.get('itemDocRef');
-
-      // Load the item from firebase
-      this.categoryItem = new CategoryItem();
-      this.catalogService.getItem(itemDocumentRef)
-        .get()
-        .subscribe(documentSnapshot => {
-          const data = documentSnapshot.data();
-          this.categoryItem.name = data.name;
-          this.categoryItem.imgUrl = data.imgUrl;
-          this.categoryItem.price = data.price;
-          this.categoryItem.ingredients = data.ingredients;
-        });
-    });
-
+    // Get the product from the service
+    this.product = this.itemDetailService.getCurrentProduct();
 
     // Listen for orientation changes
     this.orientationListener = this.screenOrientation.onChange()
@@ -72,7 +52,7 @@ export class ItemDetailPage implements OnInit, OnDestroy {
   /**
    * Tell the shopping.service to add one to the item count
    */
-  addOneToItemCount(item: CategoryItem) {
+  addOneToItemCount(item: Product) {
     const shopItem = new ShopItem();
     shopItem.name = item.name;
     shopItem.price = item.price;

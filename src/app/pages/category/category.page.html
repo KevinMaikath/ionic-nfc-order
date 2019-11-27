@@ -15,8 +15,8 @@
 <ion-content>
   <ion-list>
     <ion-grid class="ion-no-padding">
-      <ion-row *ngFor="let item of items">
-        <ion-col class="ion-no-padding" size="10" (click)="goToItemDetail(item.docId)">
+      <ion-row *ngFor="let item of products">
+        <ion-col class="ion-no-padding" size="10" (click)="goToItemDetail(item)">
           <ion-item [button]="true">
             <ion-avatar slot="start">
               <ion-img [src]="item.imgUrl"></ion-img>

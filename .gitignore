@@ -33,3 +33,5 @@ npm-debug.log*
 /.firebase
 firebase.json
 .firebaserc
+
+/src/environments

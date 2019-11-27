@@ -1,5 +1,7 @@
+import {DocumentReference} from '@angular/fire/firestore';
+
 export class Category {
-    name: string;
-    imgUrl: string;
-    itemsRef: string;
+  name: string;
+  imgUrl: string;
+  items: DocumentReference[];
 }
