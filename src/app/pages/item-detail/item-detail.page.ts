@@ -29,7 +29,7 @@ export class ItemDetailPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Check current orientation
-    this.landscape = this.screenOrientation.type === 'landscape-secondary';
+    this.landscape = this.screenOrientation.type.startsWith('landscape');
 
     // Get the product from the service
     this.product = this.itemDetailService.getCurrentProduct();
