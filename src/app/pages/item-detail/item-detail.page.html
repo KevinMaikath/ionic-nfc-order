@@ -13,32 +13,15 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid class="ion-no-padding">
-
-
-    <ion-row *ngIf="!landscape">
+  <ion-grid class="ion-no-padding" *ngIf="!landscape">
+    <ion-row>
       <ion-col class="ion-no-padding">
-        <ion-img [src]="product.imgUrl" style="max-width: 60%; margin:auto">
+        <ion-img [src]="product.imgUrl" style="width: 80%; margin: auto">
         </ion-img>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="!landscape">
       <ion-col class="ion-no-padding">
-        <ion-item>
-          <h4 slot="start">Price: {{ product.price }} $</h4>
-          <ion-button slot="end" color="success" (click)="addOneToItemCount(product)">
-            <ion-icon name="add-circle"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-
-    <ion-row *ngIf="landscape">
-      <ion-col class="ion-no-padding" size="7">
-        <ion-img [src]="product.imgUrl" style="max-width: 40%; margin:auto">
-        </ion-img>
-      </ion-col>
-      <ion-col class="ion-no-padding" size="5">
         <ion-item>
           <h4 slot="start">Price: {{ product.price }} $</h4>
           <ion-button slot="end" color="success" (click)="addOneToItemCount(product)">
@@ -60,4 +43,30 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-grid class="ion-no-padding" *ngIf="landscape">
+    <ion-row>
+      <ion-col class="ion-no-padding" size="7">
+        <ion-img [src]="product.imgUrl" style="max-width: 60%; margin:auto">
+        </ion-img>
+      </ion-col>
+      <ion-col class="ion-no-padding" size="5">
+        <ion-item>
+          <h4 slot="start">Price: {{ product.price }} $</h4>
+          <ion-button slot="end" color="success" (click)="addOneToItemCount(product)">
+            <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <h4 class="ion-text-center">Ingredients:</h4>
+        <ion-list>
+          <ion-item
+              *ngFor="let ingredient of product.ingredients">
+            <ion-text>{{ ingredient }}</ion-text>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

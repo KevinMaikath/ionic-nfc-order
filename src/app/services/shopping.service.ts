@@ -66,13 +66,13 @@ export class ShoppingService {
   setOrder(docRef: string) {
     const elements: {
       name: string,
-      amount: number
+      quantity: number
     }[] = [];
 
     for (const el of this.cart) {
       elements.push({
         name: el.name,
-        amount: el.count
+        quantity: el.count
       });
     }
 
