@@ -1,21 +1,30 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, DocumentReference} from '@angular/fire/firestore';
 import {Category} from '../models/category';
-import {Product} from '../models/product';
 
-
+/**
+ *  Handles the data needed for CatalogPage.
+ *  Loads data from firebase.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogService {
 
+  /** Firestore root url for 'categories' collection */
   CATEGORIES_ROOT_COLLECTION = 'categories';
-  categories: Category[];
-  currentCategoryName: string;
 
+  /** List of categories, loaded from firebase */
+  categories: Category[];
+
+  /** Dependency injector. */
   constructor(private firebase: AngularFirestore) {
   }
 
+  /**
+   * Loads the categories list from firebase and stores it in the "categories" variable.
+   * @returns Resolves when the data has been loaded
+   */
   loadCategories() {
     return new Promise<void>((resolve, reject) => {
       this.firebase.collection(this.CATEGORIES_ROOT_COLLECTION)
@@ -31,6 +40,7 @@ export class CatalogService {
     });
   }
 
+  /** Returns the "categories" list. */
   getCategories() {
     return this.categories;
   }

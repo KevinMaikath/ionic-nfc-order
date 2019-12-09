@@ -8,6 +8,9 @@ import {Subscription} from 'rxjs';
 import {ItemDetailService} from '../../services/item-detail.service';
 import {Product} from '../../models/product';
 
+/**
+ * Shows detailed information about a previously selected product.
+ */
 @Component({
   selector: 'app-item-detail',
   templateUrl: './item-detail.page.html',
@@ -15,10 +18,16 @@ import {Product} from '../../models/product';
 })
 export class ItemDetailPage implements OnInit, OnDestroy {
 
+  /** Product to be displayed */
   product: Product;
+
+  /** Handles the screen orientation */
   landscape: boolean;
+
+  /** Screen orientation listener */
   orientationListener: Subscription;
 
+  /** Dependency injector. */
   constructor(private itemDetailService: ItemDetailService,
               private router: Router,
               private shoppingService: ShoppingService,
@@ -27,6 +36,9 @@ export class ItemDetailPage implements OnInit, OnDestroy {
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
+  /**
+   *  Checks the screen orientation and gets the previously selected product from the ItemDetailService.
+   */
   ngOnInit() {
     // Check current orientation
     this.landscape = this.screenOrientation.type.startsWith('landscape');
@@ -50,7 +62,7 @@ export class ItemDetailPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Tell the shopping.service to add one to the item count
+   * Tells the ShoppingService to add a unit of the current product to the shopping cart
    */
   addOneToItemCount(item: Product) {
     const shopItem = new ShopItem();
@@ -61,7 +73,8 @@ export class ItemDetailPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Present a toast to notify when we add one to the item count
+   *  Presents a toast notifying that a product was added to the shopping cart.
+   * @param itemName Name of the product
    */
   async notifyItemAdded(itemName: string) {
     const toast = await this.toastCtrl.create({

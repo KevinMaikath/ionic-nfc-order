@@ -5,7 +5,9 @@ import {LoadingController, AlertController} from '@ionic/angular';
 import {NFC, NdefEvent} from '@ionic-native/nfc/ngx';
 import {Observable, Subscription} from 'rxjs';
 
-
+/**
+ * Shows a list of the products in the shopping cart and handles the NFC tag reading.
+ */
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.page.html',
@@ -13,46 +15,80 @@ import {Observable, Subscription} from 'rxjs';
 })
 export class ShoppingCartPage implements OnInit, OnDestroy {
 
+  /** List of the products from the shopping cart */
   shoppingCart: ShopItem[];
+
+  /** Current total price from the shopping cart */
   totalPrice: number;
+
+  /** Loading alert handler */
   loading: HTMLIonLoadingElement;
+
+  /** Message alert handler */
   listenAlert: HTMLIonAlertElement;
 
+  /** Handles whether an NFC listener already exists or not */
   existingObservable = false;
+
+  /** NFC observable */
   ndefEventObservable: Observable<NdefEvent>;
+
+  /** NFC observable subscription */
   nfcSubscription: Subscription;
 
+  /** Dependency injector. */
   constructor(private shoppingService: ShoppingService,
               private alertCtrl: AlertController,
               private loadingCtrl: LoadingController,
               private nfc: NFC) {
   }
 
+  /**
+   * Initiates the product list and total price.
+   */
   ngOnInit() {
     this.resetShoppingCart();
   }
 
+  /**
+   *  Unsubscribe from the NFC observer if it exists.
+   */
   ngOnDestroy() {
     if (this.nfcSubscription != null) {
       this.nfcSubscription.unsubscribe();
     }
   }
 
+  /**
+   *  Tells the ShoppingService to increase the quantity of an existing product in the shopping cart by one.
+   * @param item Selected product
+   */
   addOneToItemCount(item: ShopItem) {
     this.shoppingService.addOneToItemCount(item);
     this.resetShoppingCart();
   }
 
+  /**
+   *  Tells the ShoppingService to decrease the quantity of an existing product in the shopping cart by one.
+   * @param item Selected product
+   */
   removeOneFromItemCount(item: ShopItem) {
     this.shoppingService.removeOneFromItemCount(item);
     this.resetShoppingCart();
   }
 
+  /**
+   * Gets the products and the total price from the shopping cart (ShoppingService)
+   */
   resetShoppingCart() {
     this.shoppingCart = this.shoppingService.getShoppingCart();
     this.totalPrice = this.shoppingService.getTotalPrice();
   }
 
+  /**
+   *  Called when the 'done button' is clicked.
+   *  Presents a loading window while it handles the NFC setup.
+   */
   async onDoneClicked() {
     this.loading = await this.loadingCtrl.create();
     await this.loading.present();
@@ -71,6 +107,10 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * NFC setup. Checks if the NFC is enabled and creates a listener if it doesn't exist yet.
+   * @returns Resolves when the setup is done
+   */
   setNdefListener(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.nfc.enabled()
@@ -88,9 +128,12 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
           reject(new Error());
         });
     });
-
   }
 
+  /**
+   *  Subscribes to the NFC listener.
+   *  @returns Resolves when the subscription has been done.
+   */
   private setNdefSubscription(): Promise<void> {
     return new Promise<void>((resolve) => {
       this.nfcSubscription = this.ndefEventObservable.subscribe((event) => {
@@ -100,6 +143,11 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   *  Dismisses the current alert on screen and reads the data from the NFC event.
+   *  When the data is successfully read, tells the ShoppingService to set the order with the data provided.
+   * @param event NFC tag event
+   */
   private onNdefEvent(event) {
     this.listenAlert.dismiss();
 
@@ -131,10 +179,12 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
           alertEl.present();
         });
       });
-
-    // this.nfcSubscription.unsubscribe();
   }
 
+  /**
+   *  Presents a toast, notifying the user to approach the device to the NFC tag.
+   *  When this toast is dismissed, it unsubscribes to the NFC listener to avoid multiple reads.
+   */
   private async setReadNfcAlert() {
     this.listenAlert = await this.alertCtrl.create({
       message: 'Please approach your phone to the NFC tag',
@@ -153,6 +203,9 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   *  Presents a toast, notifying the user that the NFC isn't currently available at the device.
+   */
   private alertNfcUnavailable() {
     this.alertCtrl.create({
       message: 'Please enable NFC first',

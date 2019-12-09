@@ -5,7 +5,6 @@ import {RouteReuseStrategy} from '@angular/router';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -15,9 +14,9 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
 
-// NFC module
-import {NFC} from '@ionic-native/nfc/ngx';
-
+/**
+ * @ignore
+ */
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -31,8 +30,6 @@ import {NFC} from '@ionic-native/nfc/ngx';
   providers: [
     StatusBar,
     SplashScreen,
-    NFC,
-    ScreenOrientation,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
   ],
   bootstrap: [AppComponent]
