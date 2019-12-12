@@ -1,9 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>menu</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-title>Menus</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/shopping-cart">
+        <ion-icon name="cart" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-grid>
+    <ion-row *ngFor="let menuArray of splittedMenus">
+      <ion-col size="6" style="padding: 0px; margin: 0px; height: 100%;" *ngFor="let menu of menuArray">
+        <ion-card style="">
+          <ion-card-header color="primary" style="padding: 15px 10px; text-align: center">
+            <ion-card-title>{{ menu.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content style="padding: 20px 10px;">
+            {{ menu.description }}
+          </ion-card-content>
+          <ion-card-header color="light" style="padding: 10px; text-align: center">
+            <ion-card-subtitle><strong>Price: ${{ menu.price }}</strong></ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
