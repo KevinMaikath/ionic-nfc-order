@@ -61,7 +61,7 @@ export class CategoryPage implements OnInit {
    */
   goToItemDetail(item: Product) {
     this.itemDetailService.setCurrentProduct(item);
-    this.router.navigate(['/item-detail']);
+    this.router.navigate(['/tabs/catalog/item-detail']);
   }
 
   /**

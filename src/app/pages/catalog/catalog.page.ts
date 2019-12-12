@@ -39,7 +39,7 @@ export class CatalogPage implements OnInit {
    */
   onCategoryClick(category: Category) {
     this.categoryService.setCurrentCategory(category);
-    this.router.navigate(['/category']);
+    this.router.navigate(['/tabs/catalog/category']);
   }
 
 }

@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/catalog"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/catalog"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ categoryName }}</ion-title>
     <ion-buttons slot="primary">
-      <ion-button [routerLink]="['/shopping-cart']">
+      <ion-button routerLink="/shopping-cart">
         <ion-icon name="cart" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
