@@ -19,6 +19,14 @@ export class CatalogService {
 
   /** Dependency injector. */
   constructor(private firebase: AngularFirestore) {
+    firebase.firestore.enablePersistence()
+      .catch((err) => {
+        if (err.code === 'failed-precondition') {
+          console.log('FAILED PRECONDITION FOR FIREBASE PERSISTENCE');
+        } else if (err.code === 'unimplemented') {
+          console.log('THIS DEVICE DOESN\'T SUPPORT PERSISTENCE');
+        }
+      });
   }
 
   /**

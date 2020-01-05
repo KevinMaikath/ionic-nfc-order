@@ -33,5 +33,7 @@ npm-debug.log*
 /.firebase
 firebase.json
 .firebaserc
+firestore.rules
+firestore.indexes.json
 
 /src/environments
