@@ -94,21 +94,36 @@ export class ShoppingService {
    * @param docRef URL of the Firestore document where the order will be written
    */
   setOrder(docRef: string) {
-    const elements: {
+    const products: {
       name: string,
       quantity: number
     }[] = [];
 
-    for (const el of this.cartShopItems) {
-      elements.push({
-        name: el.name,
-        quantity: el.count
+    for (const prd of this.cartShopItems) {
+      products.push({
+        name: prd.name,
+        quantity: prd.count
+      });
+    }
+
+    const menus: {
+      name: string,
+      quantity: number,
+      items: string
+    }[] = [];
+
+    for (const mn of this.cartShopMenus) {
+      menus.push({
+        name: mn.name,
+        quantity: mn.price,
+        items: mn.items.join(' + ')
       });
     }
 
     return this.firebase.collection('orders').doc(docRef).set({
       totalPrice: this.totalPrice,
-      elements
+      products,
+      menus
     });
   }
 
