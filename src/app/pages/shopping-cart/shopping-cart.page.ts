@@ -58,6 +58,17 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
     this.resetShoppingCart();
   }
 
+
+  removeOneFromMenuCount(menu: ShopMenuItem) {
+    this.shoppingService.removeOneFromMenuCount(menu);
+    this.resetShoppingCart();
+  }
+
+  addOneToMenuCount(menu: ShopMenuItem) {
+    this.shoppingService.addOneToMenuCount(menu);
+    this.resetShoppingCart();
+  }
+
   /**
    *  Tells the ShoppingService to decrease the quantity of an existing product in the shopping cart by one.
    * @param item Selected product
@@ -72,6 +83,7 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
    */
   resetShoppingCart() {
     this.shoppingCartItems = this.shoppingService.getShoppingCart();
+    this.shoppingCartMenus = this.shoppingService.getShoppingCartMenus();
     this.totalPrice = this.shoppingService.getTotalPrice();
   }
 

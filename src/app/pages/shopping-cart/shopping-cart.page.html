@@ -12,6 +12,11 @@
     <ion-list-header>
       <h3>Total: ${{ totalPrice }}</h3>
     </ion-list-header>
+
+    <!--  SHOP ITEMS  -->
+    <ion-item-divider>
+      <ion-label>Products</ion-label>
+    </ion-item-divider>
     <ion-item *ngFor="let item of shoppingCartItems">
 
       <ion-label>{{ item.name }}</ion-label>
@@ -27,6 +32,33 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
+
+    <!--  SHOP MENUS  -->
+    <ion-item-divider>
+      <ion-label>Menus</ion-label>
+    </ion-item-divider>
+    <div *ngFor="let menu of shoppingCartMenus">
+      <ion-item>
+        <ion-label>{{ menu.name }}</ion-label>
+
+        <ion-buttons slot="end">
+          <span slot="start">${{ menu.price }}</span>
+          <ion-button small color="danger" shape="round" (click)="removeOneFromMenuCount(menu)">
+            <ion-icon name="remove-circle"></ion-icon>
+          </ion-button>
+          <span>{{ menu.count }}</span>
+          <ion-button small color="success" shape="round" (click)="addOneToMenuCount(menu)">
+            <ion-icon name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: #4c555a">&emsp;{{ menu.items.join(' + ') }}</ion-label>
+      </ion-item>
+    </div>
+
+
   </ion-list>
 
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">

@@ -53,17 +53,19 @@ export class MenuPage implements OnInit {
 
     modal.onDidDismiss()
       .then((data) => {
-        const productList = data.data;
-        const productNames = [];
-        for (const product of productList) {
-          productNames.push(product.name);
+        if (data.data != null) {
+          const productList = data.data;
+          const productNames = [];
+          for (const product of productList) {
+            productNames.push(product.name);
+          }
+          const menuItem = new ShopMenuItem();
+          menuItem.name = menu.name;
+          menuItem.price = menu.price;
+          menuItem.count = 1;
+          menuItem.items = productNames;
+          this.shoppingService.addMenuToShoppingCart(menuItem);
         }
-        const menuItem = new ShopMenuItem();
-        menuItem.name = menu.name;
-        menuItem.price = menu.price;
-        menuItem.count = 1;
-        menuItem.items = productNames;
-        this.shoppingService.addMenuToShoppingCart(menuItem);
       });
 
     return await modal.present();

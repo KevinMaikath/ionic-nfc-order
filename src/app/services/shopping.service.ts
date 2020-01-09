@@ -128,6 +128,7 @@ export class ShoppingService {
       newMenu.name = menu.name;
       newMenu.price = menu.price;
       newMenu.count = 1;
+      newMenu.items = menu.items;
       this.cartShopMenus.push(newMenu);
       this.totalPrice += menu.price;
     }
