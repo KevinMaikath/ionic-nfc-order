@@ -1,6 +1,6 @@
-import {CollectionReference} from '@angular/fire/firestore';
+import {DocumentReference} from '@angular/fire/firestore';
 
 export class MenuSelector {
   name: string;
-  collectionRef: CollectionReference;
+  collectionRef: DocumentReference;
 }

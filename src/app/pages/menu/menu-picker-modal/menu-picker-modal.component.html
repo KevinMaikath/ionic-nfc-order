@@ -17,6 +17,15 @@
 
 <ion-content>
 
-  <p>{{ menu.name }}</p>
+  <ion-item *ngFor="let selector of menuOptionsList; let i = index">
+    <ion-label>{{ selector.label }}</ion-label>
+    <ion-select [(ngModel)]="selectedOptions[i]">
+      <ion-select-option *ngFor="let product of selector.options"
+                         [value]="product">{{ product.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+  <p *ngFor="let option of selectedOptions">{{ option.name }}</p>
 
 </ion-content>
