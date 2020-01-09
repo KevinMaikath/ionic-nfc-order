@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ShopItem} from '../../models/shop-item';
+import {ShopItem, ShopMenuItem} from '../../models/shop-item';
 import {ShoppingService} from '../../services/shopping.service';
 import {LoadingController, AlertController} from '@ionic/angular';
 import {NFC, NdefEvent} from '@ionic-native/nfc/ngx';
@@ -15,25 +15,15 @@ import {Observable, Subscription} from 'rxjs';
 })
 export class ShoppingCartPage implements OnInit, OnDestroy {
 
-  /** List of the products from the shopping cart */
-  shoppingCart: ShopItem[];
-
-  /** Current total price from the shopping cart */
+  shoppingCartItems: ShopItem[];
+  shoppingCartMenus: ShopMenuItem[];
   totalPrice: number;
 
-  /** Loading alert handler */
   loading: HTMLIonLoadingElement;
-
-  /** Message alert handler */
   listenAlert: HTMLIonAlertElement;
 
-  /** Handles whether an NFC listener already exists or not */
   existingObservable = false;
-
-  /** NFC observable */
   ndefEventObservable: Observable<NdefEvent>;
-
-  /** NFC observable subscription */
   nfcSubscription: Subscription;
 
   /** Dependency injector. */
@@ -81,7 +71,7 @@ export class ShoppingCartPage implements OnInit, OnDestroy {
    * Gets the products and the total price from the shopping cart (ShoppingService)
    */
   resetShoppingCart() {
-    this.shoppingCart = this.shoppingService.getShoppingCart();
+    this.shoppingCartItems = this.shoppingService.getShoppingCart();
     this.totalPrice = this.shoppingService.getTotalPrice();
   }
 

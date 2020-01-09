@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {MenuService} from '../../services/menu.service';
 import {Menu} from '../../models/menu';
 import {ModalController} from '@ionic/angular';
-import {MenuPickerModalComponent} from "./menu-picker-modal/menu-picker-modal.component";
+import {MenuPickerModalComponent} from './menu-picker-modal/menu-picker-modal.component';
+import {ShoppingService} from "../../services/shopping.service";
+import {ShopMenuItem} from "../../models/shop-item";
 
 @Component({
   selector: 'app-menu',
@@ -15,11 +17,12 @@ export class MenuPage implements OnInit {
   splitMenus: Menu[][];
 
   constructor(private menuService: MenuService,
-              private modalCtrl: ModalController) {
-    this.menuList = [];
+              private modalCtrl: ModalController,
+              private shoppingService: ShoppingService) {
   }
 
   ngOnInit() {
+    this.menuList = [];
     this.loadData();
   }
 
@@ -40,15 +43,30 @@ export class MenuPage implements OnInit {
     }
   }
 
-  presentMenuPicker(menu) {
-    this.modalCtrl.create({
+  async presentMenuPicker(menu: Menu) {
+    const modal = await this.modalCtrl.create({
       component: MenuPickerModalComponent,
       componentProps: {
         menu
       }
-    }).then(modal => {
-      modal.present();
     });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        const productList = data.data;
+        const productNames = [];
+        for (const product of productList) {
+          productNames.push(product.name);
+        }
+        const menuItem = new ShopMenuItem();
+        menuItem.name = menu.name;
+        menuItem.price = menu.price;
+        menuItem.count = 1;
+        menuItem.items = productNames;
+        this.shoppingService.addMenuToShoppingCart(menuItem);
+      });
+
+    return await modal.present();
   }
 
 }

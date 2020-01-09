@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ShopItem} from '../models/shop-item';
+import {ShopItem, ShopMenuItem} from '../models/shop-item';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
@@ -11,21 +11,20 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class ShoppingService {
 
-  /** Items in the shopping cart */
-  cart: ShopItem[];
-
-  /** Total price of the shopping cart */
+  cartShopItems: ShopItem[];
+  cartShopMenus: ShopMenuItem[];
   totalPrice;
 
   /** Dependency injector and variable initialization */
   constructor(private firebase: AngularFirestore) {
-    this.cart = [];
+    this.cartShopItems = [];
+    this.cartShopMenus = [];
     this.totalPrice = 0;
   }
 
   /** Returns the items in the shopping cart */
   getShoppingCart() {
-    return this.cart;
+    return this.cartShopItems;
   }
 
   /** Returns the total price of the shopping cart */
@@ -39,7 +38,7 @@ export class ShoppingService {
    * @param item Product to be added to the shopping cart
    */
   addItemToShoppingCart(item: ShopItem) {
-    const existingItem = this.cart.find(element => {
+    const existingItem = this.cartShopItems.find(element => {
       return element.name === item.name;
     });
 
@@ -50,7 +49,7 @@ export class ShoppingService {
       newItem.name = item.name;
       newItem.price = item.price;
       newItem.count = 1;
-      this.cart.push(newItem);
+      this.cartShopItems.push(newItem);
       this.totalPrice += item.price;
     }
   }
@@ -60,8 +59,8 @@ export class ShoppingService {
    * @param item Product to be increased
    */
   addOneToItemCount(item: ShopItem) {
-    const index = this.cart.indexOf(item);
-    this.cart[index].count += 1;
+    const index = this.cartShopItems.indexOf(item);
+    this.cartShopItems[index].count += 1;
     this.totalPrice += item.price;
   }
 
@@ -71,10 +70,10 @@ export class ShoppingService {
    * @param item Product to be decreased
    */
   removeOneFromItemCount(item: ShopItem) {
-    const index = this.cart.indexOf(item);
+    const index = this.cartShopItems.indexOf(item);
     if (index !== -1) {
-      if (this.cart[index].count > 1) {
-        this.cart[index].count -= 1;
+      if (this.cartShopItems[index].count > 1) {
+        this.cartShopItems[index].count -= 1;
       } else {
         this.removeFromShoppingCart(index);
       }
@@ -87,7 +86,7 @@ export class ShoppingService {
    * @param index Index of the item to be removed in the cart
    */
   removeFromShoppingCart(index: number) {
-    this.cart.splice(index, 1);
+    this.cartShopItems.splice(index, 1);
   }
 
   /**
@@ -100,7 +99,7 @@ export class ShoppingService {
       quantity: number
     }[] = [];
 
-    for (const el of this.cart) {
+    for (const el of this.cartShopItems) {
       elements.push({
         name: el.name,
         quantity: el.count
@@ -111,6 +110,49 @@ export class ShoppingService {
       totalPrice: this.totalPrice,
       elements
     });
+  }
+
+  getShoppingCartMenus() {
+    return this.cartShopMenus;
+  }
+
+  addMenuToShoppingCart(menu: ShopMenuItem) {
+    const existingMenu = this.cartShopMenus.find(element => {
+      return element.name === menu.name;
+    });
+
+    if (existingMenu !== undefined) {
+      this.addOneToMenuCount(existingMenu);
+    } else {
+      const newMenu = new ShopMenuItem();
+      newMenu.name = menu.name;
+      newMenu.price = menu.price;
+      newMenu.count = 1;
+      this.cartShopMenus.push(newMenu);
+      this.totalPrice += menu.price;
+    }
+  }
+
+  addOneToMenuCount(menu: ShopMenuItem) {
+    const index = this.cartShopMenus.indexOf(menu);
+    this.cartShopMenus[index].count += 1;
+    this.totalPrice += menu.price;
+  }
+
+  removeOneFromMenuCount(menu: ShopMenuItem) {
+    const index = this.cartShopMenus.indexOf(menu);
+    if (index !== -1) {
+      if (this.cartShopMenus[index].count > 1) {
+        this.cartShopMenus[index].count -= 1;
+      } else {
+        this.removeMenuFromShoppingCart(index);
+      }
+      this.totalPrice -= menu.price;
+    }
+  }
+
+  removeMenuFromShoppingCart(index: number) {
+    this.cartShopMenus.splice(index, 1);
   }
 
 }

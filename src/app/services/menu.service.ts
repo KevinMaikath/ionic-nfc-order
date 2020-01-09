@@ -36,35 +36,6 @@ export class MenuService {
     return this.menuList;
   }
 
-  // loadCategoryForMenu(menuSelector: MenuSelector, index: number) {
-  //   return new Promise<MenuOptions>((resolve, reject) => {
-  //     if (menuSelector.name === this.lastLoadedCategoryName) {
-  //       resolve(this.loadedMenuOptions);
-  //     } else {
-  //       const menuOptions = new MenuOptions();
-  //       menuOptions.label = menuSelector.name;
-  //       menuOptions.index = index;
-  //       const categoryRef = menuSelector.collectionRef;
-  //       categoryRef.get()
-  //         .then(categoryDoc => {
-  //           const category = categoryDoc.data() as Category;
-  //           for (const productReference of category.items) {
-  //             productReference.get()
-  //               .then(productDoc => {
-  //                 const product = productDoc.data() as Product;
-  //                 menuOptions.options.push(product);
-  //                 resolve(menuOptions);
-  //               });
-  //           }
-  //         })
-  //         .then(() => {
-  //           console.log('_RETURN_');
-  //           this.lastLoadedCategoryName = menuSelector.name;
-  //         });
-  //     }
-  //   });
-  // }
-
   loadCategoryItems(categoryRef: DocumentReference, menuOptionsIndex: number,
                     callback: (values: MenuOptionsValues, component: any) => void,
                     componentReference: any) {
@@ -81,9 +52,7 @@ export class MenuService {
                 product,
                 categoryName
               };
-              // console.log('RETURN PRODUCT:' + product.name);
               callback(values, componentReference);
-              // resolve(values);
             });
         }
       });

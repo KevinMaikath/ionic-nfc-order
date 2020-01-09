@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Menu} from '../../../models/menu';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {MenuService} from '../../../services/menu.service';
 import {MenuOptions, MenuOptionsValues} from '../../../models/menu-options';
 import {Product} from '../../../models/product';
@@ -18,7 +18,8 @@ export class MenuPickerModalComponent implements OnInit {
   selectedOptions: Product[];
 
   constructor(private modalCtrl: ModalController,
-              private menuService: MenuService) {
+              private menuService: MenuService,
+              private toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -42,5 +43,29 @@ export class MenuPickerModalComponent implements OnInit {
 
   dismissModal() {
     this.modalCtrl.dismiss();
+  }
+
+  onDoneClicked() {
+    let done = true;
+    for (const product of this.selectedOptions) {
+      if (product.name === undefined) {
+        done = false;
+        break;
+      }
+    }
+    if (!done) {
+      this.notifyNotDone();
+    } else {
+      this.modalCtrl.dismiss(this.selectedOptions);
+    }
+  }
+
+  async notifyNotDone() {
+    const toast = await this.toastCtrl.create({
+      message: 'You need to select all the items',
+      duration: 2000,
+      color: 'medium'
+    });
+    await toast.present();
   }
 }

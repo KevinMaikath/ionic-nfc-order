@@ -12,3 +12,10 @@ export class ShopItem {
   /** Current quantity of the product in the shopping cart */
   count: number;
 }
+
+export class ShopMenuItem {
+  name: string;
+  price: number;
+  items: string[];
+  count: number;
+}
