@@ -37,3 +37,4 @@ firestore.rules
 firestore.indexes.json
 
 /src/environments
+/documentation/

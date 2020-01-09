@@ -12,9 +12,9 @@
 <ion-content>
 
   <ion-grid>
-    <ion-row *ngFor="let menuArray of splittedMenus">
+    <ion-row *ngFor="let menuArray of splitMenus">
       <ion-col size="6" style="padding: 0px; margin: 0px; height: 100%;" *ngFor="let menu of menuArray">
-        <ion-card style="">
+        <ion-card style="" button="true" (click)="presentMenuPicker(menu)">
           <ion-card-header color="primary" style="padding: 15px 10px; text-align: center">
             <ion-card-title>{{ menu.name }}</ion-card-title>
           </ion-card-header>
